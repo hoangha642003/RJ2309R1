@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaCartArrowDown, FaStar } from "react-icons/fa";
+import { ShoeContext } from "../../context/ShoeContext";
+import { addToCart } from "../../reducer/actions";
 
 function Product({ product }) {
+    const { dispatch } = useContext(ShoeContext)
     const { title, star, reviews, prevPrice, newPrice } = product
     return (
         <div className="col-md-3 mb-4">
@@ -29,7 +32,9 @@ function Product({ product }) {
                             <del className="line-through me-2">${prevPrice}</del>
                             <span>${newPrice}</span>
                         </div>
-                        <FaCartArrowDown size={20} className="btn-cart" />
+                        <FaCartArrowDown size={20} className="btn-cart"
+                            onClick={() => dispatch(addToCart(product))}
+                        />
                     </div>
                 </div>
             </div>

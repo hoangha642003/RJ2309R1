@@ -1,10 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Product from "./Product";
 import { ShoeContext } from "../../context/ShoeContext";
+import { fetchProducts } from "../../reducer/actions";
 
 function Products() {
-    const { state } = useContext(ShoeContext)
+    const { state, dispatch } = useContext(ShoeContext)
     const { productList, filters: { searchText, recommended, category, color, price } } = state
+    useEffect(() => {
+        async function getData() {
+            let productRes = await fetch('https://jsonserver-vercel-api.vercel.app/api/products') 
+            let data = await productRes.json()
+            dispatch(fetchProducts(data))
+        }
+        getData();
+    }, [])
     const queryProducts = () => {
         let filtersProductList = [...productList]
         if (searchText){
@@ -31,7 +40,7 @@ function Products() {
         return filtersProductList
     }
     const remainProductList = queryProducts()
-    console.log(state.filters);
+    console.log(state.cart);
     return (
         <div className="py-2 d-flex flex-column justify-content-center">
             <h5>Products</h5>

@@ -38,3 +38,17 @@ export const setSearchPrice = (payload) => {
         payload: payload
     }
 }
+
+export const fetchProducts = (payload) => {
+    return {
+        type: 'productList/fetchProducts',
+        payload
+    }
+}
+
+export const addToCart = (payload) => {
+    return {
+        type: 'cart/addToCart',
+        payload
+    }
+}
