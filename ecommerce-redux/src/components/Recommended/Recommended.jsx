@@ -29,7 +29,7 @@ function Recommended() {
             <div className="form-group">
                 {
                     recommended.map(recmd => (
-                        <button key={recmd}
+                        <button key={recmd.value}
                             className={
                                 `btn btn-sm btn-outline-secondary me-1
                                     ${recmd.value === 'All' ? 'active' : ''}

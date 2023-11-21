@@ -30,7 +30,7 @@ function Price() {
             <div className="form-group">
                 {
                     prices.map(price => (
-                        <div key={price} className="form-check py-1">
+                        <div key={price.value} className="form-check py-1">
                             <input className="form-check-input" type="radio" name="price"
                                 value={price.value}
                                 defaultChecked={price.name === 'All'}
