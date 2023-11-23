@@ -16,6 +16,7 @@ function Category() {
                                 defaultChecked={cat === 'All'}
                             />
                             <label 
+                                role="button"
                                 className={`form-check-label ${cat === 'All' ? 'text-decoration-underline fw-bolder' : ''}`}
                             >
                                 {cat}

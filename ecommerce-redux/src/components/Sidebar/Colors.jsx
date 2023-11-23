@@ -17,6 +17,7 @@ function Colors() {
                                 style={color === 'All' ? { backgroundImage: 'linear-gradient(to right, red, green)' } : color !== 'White' ? { backgroundColor: color } : {}}
                             />
                             <label 
+                                role="button"
                                 className={`form-check-label ${color === 'All' ? 'text-decoration-underline fw-bolder' : ''}`}
                             >
                                 {color}
