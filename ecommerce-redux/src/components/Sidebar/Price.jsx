@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import filtersSlice from "../../reducers/filtersSlice";
 
 const prices = [
     {
@@ -24,20 +26,25 @@ const prices = [
 
 ]
 function Price() {
+    const currentPrice = useSelector((state) => state.filters.price)
+    const dispatch = useDispatch()
     return (
         <div className="py-2 d-flex flex-column justify-content-center">
             <h5>Price</h5>
             <div className="form-group">
                 {
-                    prices.map(price => (
+                    prices.map((price,index) => (
                         <div key={price.value} className="form-check py-1">
                             <input className="form-check-input" type="radio" name="price"
+                                id={`price_${index}`}
                                 value={price.value}
                                 defaultChecked={price.name === 'All'}
+                                onChange={(e) => dispatch(filtersSlice.actions.setSearchPrice(e.target.value))}
                             />
                             <label 
                                 role="button"
-                                className={`form-check-label ${price.name === 'All' ? 'text-decoration-underline fw-bolder' : ''}`}
+                                className={`form-check-label ${price.value === currentPrice ? 'text-decoration-underline fw-bolder' : ''}`}
+                                htmlFor={`price_${index}`}
                             >
                                 {price.name}
                             </label>
