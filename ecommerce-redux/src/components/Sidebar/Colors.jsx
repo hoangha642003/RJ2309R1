@@ -1,12 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import filtersSlice from "../../reducers/filtersSlice";
+import { searchColorSelector } from "../../redux-toolkit/selectors";
 
 const colors = [
     "All", "Black", "Blue", "Red", "Green", 'White'
 ]
 function Colors() {
-    const currentColor = useSelector((state) => state.filters.color)
+    const currentColor = useSelector(searchColorSelector)
     const dispatch = useDispatch()
     return (
         <div className="py-2 d-flex flex-column justify-content-center">

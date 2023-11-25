@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import filtersSlice from "../../reducers/filtersSlice";
+import { searchPriceSelector } from "../../redux-toolkit/selectors";
 
 const prices = [
     {
@@ -26,7 +27,7 @@ const prices = [
 
 ]
 function Price() {
-    const currentPrice = useSelector((state) => state.filters.price)
+    const currentPrice = useSelector(searchPriceSelector)
     const dispatch = useDispatch()
     return (
         <div className="py-2 d-flex flex-column justify-content-center">

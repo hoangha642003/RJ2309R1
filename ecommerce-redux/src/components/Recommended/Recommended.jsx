@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import filtersSlice from "../../reducers/filtersSlice";
+import { searchRecommendedSelector } from "../../redux-toolkit/selectors";
 
 const recommendedList = [
     {
@@ -25,7 +26,7 @@ const recommendedList = [
     }
 ]
 function Recommended() {
-    const recommended = useSelector((state) => state.filters.recommended)
+    const recommended = useSelector(searchRecommendedSelector)
     const dispatch = useDispatch()
     return (
         <div className="py-2 d-flex flex-column justify-content-center">

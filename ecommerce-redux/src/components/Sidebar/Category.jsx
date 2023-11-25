@@ -1,12 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import filtersSlice from "../../reducers/filtersSlice";
+import { searchCategorySelector } from "../../redux-toolkit/selectors";
 
 const categories = [
     "All", "Sneakers", "Flats", "Sandals", "Heels"
 ]
 function Category() {
-    const category = useSelector((state) => state.filters.category)
+    const category = useSelector(searchCategorySelector)
     const dispatch = useDispatch()
     return (
         <div className="py-2 d-flex flex-column justify-content-center">
