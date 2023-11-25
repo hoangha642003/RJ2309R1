@@ -11,7 +11,7 @@ function Products() {
 
     useEffect(() => {
         dispatch(fetchProductListThunkAction())
-    }, [])
+    }, [dispatch])
 
     // const queryProductList = () => {
     //     let filterProducts = [...productList]

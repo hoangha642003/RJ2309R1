@@ -1,7 +1,15 @@
 import React from "react";
 import MainLayout from "../layouts/MainLayout";
+import { cartSelector } from "../redux-toolkit/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
+import cartSlice from "../reducers/cartSlice";
 
 function CartPage() {
+    const dispatch = useDispatch()
+    const cart = useSelector(cartSelector)
+    const { cartInfo, cartDetails } = cart
     return (
         <MainLayout>
             <div className="container mt-1">
@@ -12,7 +20,6 @@ function CartPage() {
                 </div>
                 <div className="row">
                     <div className="col-md-8">
-
                         <table className="table cart-table">
                             <thead>
                                 <tr>
@@ -24,140 +31,50 @@ function CartPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td style={{ maxWidth: '200px' }}>
-                                        <div className="d-flex align-items-center">
-                                            <img className="product-image" src="https://m.media-amazon.com/images/I/6125yAfsJKL._AC_UX575_.jpg" alt="" />
-                                            <div className="d-inline">
-                                                <div className="d-block fw-bolder mb-2">{"Nike Air Monarch IV"}</div>
-                                                <div className="d-block">{"Black"}</div>
-                                            </div>
-                                        </div>
+                                {
+                                    cartDetails?.map((cartItem) => (
+                                        <tr key={cartItem.id}>
+                                            <td style={{ maxWidth: '200px' }}>
+                                                <div className="d-flex align-items-center">
+                                                    <img className="product-image" src={cartItem.img} alt="" />
+                                                    <div className="d-inline">
+                                                        <div className="d-block fw-bolder mb-2">{cartItem.title}</div>
+                                                        <div className="d-block">{cartItem.color}</div>
+                                                    </div>
+                                                </div>
 
-                                    </td>
-                                    <td className="text-end">
-                                        ${200}
-                                    </td>
-                                    <td >
-                                        <div className="cart-quantity-wrap">
-                                            <div className="cart-quantity">
-                                                <span>-</span>
-                                                <span>1</span>
-                                                <span>+</span>
-                                            </div>
-                                        </div>
+                                            </td>
+                                            <td className="text-end">
+                                                ${cartItem.newPrice}
+                                            </td>
+                                            <td >
+                                                <div className="cart-quantity-wrap">
+                                                    <div className="cart-quantity">
+                                                        <span onClick={() => dispatch(cartSlice.actions.decrementQuantity(cartItem))}>-</span>
+                                                        <span>{cartItem.quantity}</span>
+                                                        <span onClick={() => dispatch(cartSlice.actions.incrementQuantity(cartItem))}>+</span>
+                                                    </div>
+                                                </div>
 
-                                    </td>
-                                    <td className="text-end">
-                                        ${200}
-                                    </td>
-                                    <td>
-                                        <div className="action-wrap">
-                                            <span className="btn-remove">&times;</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style={{ maxWidth: '200px' }}>
-                                        <div className="d-flex align-items-center">
-                                            <img className="product-image" src="https://m.media-amazon.com/images/I/61bncQ44yML._AC_UX695_.jpg" alt="" />
-                                            <div className="d-inline">
-                                                <div className="d-block fw-bolder mb-2">{"Nike Air Monarch IV"}</div>
-                                                <div className="d-block">{"Black"}</div>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                    <td className="text-end">
-                                        ${200}
-                                    </td>
-                                    <td >
-                                        <div className="cart-quantity-wrap">
-                                            <div className="cart-quantity">
-                                                <span>-</span>
-                                                <span>1</span>
-                                                <span>+</span>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                    <td className="text-end">
-                                        ${200}
-                                    </td>
-                                    <td>
-                                        <div className="action-wrap">
-                                            <span className="btn-remove">&times;</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style={{ maxWidth: '200px' }}>
-                                        <div className="d-flex align-items-center">
-                                            <img className="product-image" src="https://m.media-amazon.com/images/I/71czu7WgGuL._AC_UY695_.jpg" alt="" />
-                                            <div className="d-inline">
-                                                <div className="d-block fw-bolder mb-2">{"Nike Air Monarch IV"}</div>
-                                                <div className="d-block">{"Black"}</div>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                    <td className="text-end">
-                                        ${200}
-                                    </td>
-                                    <td >
-                                        <div className="cart-quantity-wrap">
-                                            <div className="cart-quantity">
-                                                <span>-</span>
-                                                <span>1</span>
-                                                <span>+</span>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                    <td className="text-end">
-                                        ${200}
-                                    </td>
-                                    <td>
-                                        <div className="action-wrap">
-                                            <span className="btn-remove">&times;</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style={{ maxWidth: '200px' }}>
-                                        <div className="d-flex align-items-center">
-                                            <img className="product-image" src="https://m.media-amazon.com/images/I/61men05KRxL._AC_UY625_.jpg" alt="" />
-                                            <div className="d-inline">
-                                                <div className="d-block fw-bolder mb-2">{"Nike Air Monarch IV"}</div>
-                                                <div className="d-block">{"Black"}</div>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                    <td className="text-end">
-                                        ${200}
-                                    </td>
-                                    <td >
-                                        <div className="cart-quantity-wrap">
-                                            <div className="cart-quantity">
-                                                <span>-</span>
-                                                <span>1</span>
-                                                <span>+</span>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                    <td className="text-end">
-                                        ${200}
-                                    </td>
-                                    <td>
-                                        <div className="action-wrap">
-                                            <span className="btn-remove">&times;</span>
-                                        </div>
-                                    </td>
-                                </tr>
+                                            </td>
+                                            <td className="text-end">
+                                                ${cartItem.amount}
+                                            </td>
+                                            <td>
+                                                <div className="action-wrap">
+                                                    <span className="btn-remove"
+                                                        onClick={() => dispatch(cartSlice.actions.removeCartItem(cartItem))}
+                                                    >&times;</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
                             </tbody>
                         </table>
+                        <Link to={'/shoe'} className="btn btn-link">
+                            <FaArrowLeft /> Continue shopping
+                        </Link>
                     </div>
                     <div className="col-md-4" style={{ minWidth: '300px' }}>
                         <div className="order-summary p-3">
@@ -165,7 +82,7 @@ function CartPage() {
                             <div className="d-flex flex-column">
                                 <div className="d-flex align-items-center justify-content-between py-2">
                                     <span>Subtotal</span>
-                                    <span className="fw-bolder">$418</span>
+                                    <span className="fw-bolder">${cartInfo.totalAmount}</span>
                                 </div>
                                 <div className="d-flex align-items-center justify-content-between py-2">
                                     <span>Shipping</span>
@@ -174,7 +91,7 @@ function CartPage() {
                             </div>
                             <div className="d-flex align-items-center justify-content-between border-top mt-2 py-2">
                                 <span className="fs-6">Total</span>
-                                <span className="fw-bolder fs-6">$418</span>
+                                <span className="fw-bolder fs-6">${cartInfo.totalAmount}</span>
                             </div>
                         </div>
                         <div className="py-3 bg-success mt-2 d-flex align-items-center justify-content-center text-white btn-checkout">

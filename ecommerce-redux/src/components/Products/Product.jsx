@@ -1,8 +1,11 @@
 import React from "react";
 import { FaCartArrowDown, FaStar } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import cartSlice from "../../reducers/cartSlice";
 
 function Product({ product }) {
     const { img, title, star, reviews, prevPrice, newPrice } = product
+    const dispatch = useDispatch()
     return (
         <div className="col-md-3 mb-4">
             <div className="card d-flex align-items-center pt-2">
@@ -31,7 +34,9 @@ function Product({ product }) {
                             <del className="line-through me-2">${prevPrice}</del>
                             <span>${newPrice}</span>
                         </div>
-                        <FaCartArrowDown size={20} className="btn-cart" />
+                        <FaCartArrowDown size={20} className="btn-cart" 
+                            onClick={() => dispatch(cartSlice.actions.addToCart(product))}
+                        />
                     </div>
                 </div>
             </div>
