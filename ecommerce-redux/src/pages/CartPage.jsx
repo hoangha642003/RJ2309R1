@@ -50,7 +50,11 @@ function CartPage() {
                                             <td >
                                                 <div className="cart-quantity-wrap">
                                                     <div className="cart-quantity">
-                                                        <span onClick={() => dispatch(cartSlice.actions.decrementQuantity(cartItem))}>-</span>
+                                                        {
+                                                            cartItem.quantity > 1 ? 
+                                                                <span onClick={() => dispatch(cartSlice.actions.decrementQuantity(cartItem))}>-</span> :
+                                                                <span>-</span>
+                                                        }
                                                         <span>{cartItem.quantity}</span>
                                                         <span onClick={() => dispatch(cartSlice.actions.incrementQuantity(cartItem))}>+</span>
                                                     </div>
@@ -94,7 +98,9 @@ function CartPage() {
                                 <span className="fw-bolder fs-6">${cartInfo.totalAmount}</span>
                             </div>
                         </div>
-                        <div className="py-3 bg-success mt-2 d-flex align-items-center justify-content-center text-white btn-checkout">
+                        <div className="py-3 bg-success mt-2 d-flex align-items-center justify-content-center text-white btn-checkout"
+                            onClick={() => dispatch(cartSlice.actions.checkoutCart())}
+                        >
                             CHECKOUT
                         </div>
                     </div>
