@@ -36,6 +36,9 @@ input[type='search']::placeholder {
   padding: 5px;
   border-radius: 5px;
 }
+.form-control {
+  font-size: .9rem !important; 
+}
 .form-control::placeholder{
   color: rgba(0, 0, 0, .3) !important;
   font-style: italic;

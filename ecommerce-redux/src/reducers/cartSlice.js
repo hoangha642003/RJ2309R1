@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const cartSlice = createSlice({
     name: 'cart',
@@ -10,10 +10,7 @@ const cartSlice = createSlice({
         },
         cartDetails: [
 
-        ],
-        customerInfo: {
-
-        }
+        ]
     },
     reducers: {
         addToCart: (state, action) => {
@@ -47,8 +44,8 @@ const cartSlice = createSlice({
                 cartItem.quantity = Number(cartItem.quantity) - 1;
                 cartItem.amount = Number(cartItem.quantity * cartItem.newPrice)
                 let newSubTotal = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
-            state.cartInfo.subTotal = newSubTotal
-            state.cartInfo.totalAmount = newSubTotal + state.cartInfo.shipping
+                state.cartInfo.subTotal = newSubTotal
+                state.cartInfo.totalAmount = newSubTotal + state.cartInfo.shipping
             }
 
         },
@@ -66,7 +63,33 @@ const cartSlice = createSlice({
                 totalAmount: 0
             }
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(checkoutCartThunkAction.pending, (state, action) => {
+
+            })
+            .addCase(checkoutCartThunkAction.fulfilled, (state, action) => {
+                state.cartDetails = []
+                state.cartInfo = {
+                    subTotal: 0,
+                    shipping: 0,
+                    totalAmount: 0
+                }
+            })
     }
+})
+
+export const checkoutCartThunkAction = createAsyncThunk('cart/checkoutThunkAction', async (data) => {
+    let orderRes = await fetch('http://localhost:3000/orderList', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    let result = await orderRes.json()
+    return result;
 })
 
 export default cartSlice;

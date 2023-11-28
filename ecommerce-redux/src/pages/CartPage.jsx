@@ -4,10 +4,12 @@ import { cartSelector } from "../redux-toolkit/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import cartSlice from "../reducers/cartSlice";
+import cartSlice, { checkoutCartThunkAction } from "../reducers/cartSlice";
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import Swal from "sweetalert2";
+import { v4 as uuid } from "uuid";
 
 const schema = yup.object({
     fullname: yup.string().required(),
@@ -25,8 +27,21 @@ function CartPage() {
     })
 
     const handleCheckoutCart = (data) => {
-        console.log(data);
-        // onClick={() => dispatch(cartSlice.actions.checkoutCart())}
+        const order = {
+            orderId: uuid(),
+            cartInfo: {
+                ...cart.cartInfo
+            },
+            cartDetails: [
+                ...cart.cartDetails
+            ],
+            customerInfo: {
+                ...data
+            }
+        }
+        dispatch(checkoutCartThunkAction(order))
+        reset()
+        Swal.fire('Cart checkout success!')
     }
     return (
         <MainLayout>
@@ -119,20 +134,29 @@ function CartPage() {
                             </div>
                             <div className="customer-info p-3 mt-2">
                                 <h3 className="border-bottom py-2">Customer Info</h3>
-                                <div className="mb-3">
-                                    <input type="text" className="form-control" placeholder="Fullname" 
+                                <div className="mb-2">
+                                    <label className="form-label">Fullname</label>
+                                    <input type="text"
+                                        className={`form-control  ${errors?.fullname?.message ? 'is-invalid' : ''}`}
+                                        placeholder="Fullname"
                                         {...register("fullname")}
                                     />
                                     <span className="invalid-feedback">{errors?.fullname?.message}</span>
                                 </div>
-                                <div className="mb-3">
-                                    <input type="text" className="form-control" placeholder="Mobile" 
+                                <div className="mb-2">
+                                    <label className="form-label">Mobile</label>
+                                    <input type="text"
+                                        className={`form-control  ${errors?.mobile?.message ? 'is-invalid' : ''}`}
+                                        placeholder="Mobile"
                                         {...register("mobile")}
                                     />
                                     <span className="invalid-feedback">{errors?.mobile?.message}</span>
                                 </div>
-                                <div className="mb-3">
-                                    <input type="text" className="form-control" placeholder="Address" 
+                                <div className="mb-2">
+                                    <label className="form-label">Address</label>
+                                    <input type="text"
+                                        className={`form-control  ${errors?.address?.message ? 'is-invalid' : ''}`}
+                                        placeholder="Address"
                                         {...register("address")}
                                     />
                                     <span className="invalid-feedback">{errors?.address?.message}</span>

@@ -15,7 +15,7 @@ function Products() {
         <div className="py-2 d-flex flex-column justify-content-center">
             <h5>Products</h5>
             {
-                loading == 'loading' ? (
+                loading === 'loading' ? (
                     <p>Loading ...</p>
                 ) : (
                     <div className="row">
