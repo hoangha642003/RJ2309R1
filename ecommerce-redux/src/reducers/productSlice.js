@@ -21,7 +21,7 @@ const productSlice = createSlice({
     }
 })
 export const fetchProductListThunkAction = createAsyncThunk('thunkActionProductList/fetchProducts',  async () => {
-    let productsRes = await fetch('https://jsonserver-vercel-api.vercel.app/products')
+    let productsRes = await fetch('http://localhost:3000/products')
     let data = await productsRes.json()
     return data
 })

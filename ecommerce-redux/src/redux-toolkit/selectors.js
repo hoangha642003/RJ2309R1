@@ -1,6 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 export const productListSelector = (state) => state.productList.products
+export const loadingSelector = (state) => state.productList.status
 export const searchTextSelector = (state) => state.filters.searchText
 export const searchCategorySelector = (state) => state.filters.category
 export const searchColorSelector = (state) => state.filters.color
@@ -15,8 +16,8 @@ export const filtersProductListSelector = createSelector(
     searchColorSelector,
     searchPriceSelector,
     searchRecommendedSelector,
-    (productList, searchText, category, color, price, recommended) => {
-        let queryProductList = [...productList]
+    (products, searchText, category, color, price, recommended) => {
+        let queryProductList = [...products]
         if (searchText) {
             queryProductList = queryProductList.filter((p) => p.title.toLowerCase().includes(searchText.toLowerCase()))
         }

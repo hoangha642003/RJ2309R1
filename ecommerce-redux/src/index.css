@@ -31,6 +31,16 @@ input[type='search']::placeholder {
   border-radius: 5px;
 }
 
+.customer-info {
+  background-color: rgba(0, 0, 0, .1);
+  padding: 5px;
+  border-radius: 5px;
+}
+.form-control::placeholder{
+  color: rgba(0, 0, 0, .3) !important;
+  font-style: italic;
+}
+
 .btn-checkout:hover {
   background-color: #077441 !important;
   cursor: pointer;

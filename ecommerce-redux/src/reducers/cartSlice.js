@@ -4,11 +4,16 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState: {
         cartInfo: {
+            subTotal: 0,
+            shipping: 0,
             totalAmount: 0
         },
         cartDetails: [
 
-        ]
+        ],
+        customerInfo: {
+
+        }
     },
     reducers: {
         addToCart: (state, action) => {
@@ -24,34 +29,42 @@ const cartSlice = createSlice({
                     amount: action?.payload?.newPrice
                 })
             }
-            let newTotalAmount = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
-            state.cartInfo.totalAmount = newTotalAmount
+            let newSubTotal = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
+            state.cartInfo.subTotal = newSubTotal
+            state.cartInfo.totalAmount = newSubTotal + state.cartInfo.shipping
         },
         incrementQuantity: (state, action) => {
             let cartItem = state.cartDetails?.find((item) => item.id === action?.payload?.id)
             cartItem.quantity = Number(cartItem.quantity) + 1;
             cartItem.amount = Number(cartItem.quantity * cartItem.newPrice)
-            let newTotalAmount = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
-            state.cartInfo.totalAmount = newTotalAmount
+            let newSubTotal = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
+            state.cartInfo.subTotal = newSubTotal
+            state.cartInfo.totalAmount = newSubTotal + state.cartInfo.shipping
         },
         decrementQuantity: (state, action) => {
             let cartItem = state.cartDetails?.find((item) => item.id === action?.payload?.id)
             if (cartItem.quantity > 1) {
                 cartItem.quantity = Number(cartItem.quantity) - 1;
                 cartItem.amount = Number(cartItem.quantity * cartItem.newPrice)
-                let newTotalAmount = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
-                state.cartInfo.totalAmount = newTotalAmount
+                let newSubTotal = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
+            state.cartInfo.subTotal = newSubTotal
+            state.cartInfo.totalAmount = newSubTotal + state.cartInfo.shipping
             }
 
         },
         removeCartItem: (state, action) => {
             state.cartDetails = state.cartDetails.filter((item) => item.id !== action.payload.id)
-            let newTotalAmount = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
-            state.cartInfo.totalAmount = newTotalAmount
+            let newSubTotal = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
+            state.cartInfo.subTotal = newSubTotal
+            state.cartInfo.totalAmount = newSubTotal + state.cartInfo.shipping
         },
         checkoutCart: (state, action) => {
             state.cartDetails = []
-            state.cartInfo.totalAmount = 0
+            state.cartInfo = {
+                subTotal: 0,
+                shipping: 0,
+                totalAmount: 0
+            }
         }
     }
 })

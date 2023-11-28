@@ -5,11 +5,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import cartSlice from "../reducers/cartSlice";
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+
+const schema = yup.object({
+    fullname: yup.string().required(),
+    mobile: yup.string().required(),
+    address: yup.string().required(),
+})
 
 function CartPage() {
     const dispatch = useDispatch()
     const cart = useSelector(cartSelector)
     const { cartInfo, cartDetails } = cart
+
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+        resolver: yupResolver(schema)
+    })
+
+    const handleCheckoutCart = (data) => {
+        console.log(data);
+        // onClick={() => dispatch(cartSlice.actions.checkoutCart())}
+    }
     return (
         <MainLayout>
             <div className="container mt-1">
@@ -19,7 +37,7 @@ function CartPage() {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-8">
+                    <div className="col-lg-8 col-md-12 col-sm-12">
                         <table className="table cart-table">
                             <thead>
                                 <tr>
@@ -39,7 +57,7 @@ function CartPage() {
                                                     <img className="product-image" src={cartItem.img} alt="" />
                                                     <div className="d-inline">
                                                         <div className="d-block fw-bolder mb-2">{cartItem.title}</div>
-                                                        <div className="d-block">{cartItem.color}</div>
+                                                        <div className={`badge py-1 px-3`} style={{ backgroundColor: cartItem.color }}>{cartItem.color}</div>
                                                     </div>
                                                 </div>
 
@@ -51,7 +69,7 @@ function CartPage() {
                                                 <div className="cart-quantity-wrap">
                                                     <div className="cart-quantity">
                                                         {
-                                                            cartItem.quantity > 1 ? 
+                                                            cartItem.quantity > 1 ?
                                                                 <span onClick={() => dispatch(cartSlice.actions.decrementQuantity(cartItem))}>-</span> :
                                                                 <span>-</span>
                                                         }
@@ -80,29 +98,50 @@ function CartPage() {
                             <FaArrowLeft /> Continue shopping
                         </Link>
                     </div>
-                    <div className="col-md-4" style={{ minWidth: '300px' }}>
-                        <div className="order-summary p-3">
-                            <h3 className="border-bottom py-2">Order Summary</h3>
-                            <div className="d-flex flex-column">
-                                <div className="d-flex align-items-center justify-content-between py-2">
-                                    <span>Subtotal</span>
-                                    <span className="fw-bolder">${cartInfo.totalAmount}</span>
+                    <div className="col-lg-4 col-md-12 col-sm-12" style={{ minWidth: '300px' }}>
+                        <form onSubmit={handleSubmit(handleCheckoutCart)}>
+                            <div className="order-summary p-3">
+                                <h3 className="border-bottom py-2">Order Summary</h3>
+                                <div className="d-flex flex-column">
+                                    <div className="d-flex align-items-center justify-content-between py-2">
+                                        <span>Subtotal</span>
+                                        <span className="fw-bolder">${cartInfo.subTotal}</span>
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-between py-2">
+                                        <span>Shipping</span>
+                                        <span className="fw-bolder">{`${cartInfo.shipping ? '$' + cartInfo.shipping : 'Free'}`}</span>
+                                    </div>
                                 </div>
-                                <div className="d-flex align-items-center justify-content-between py-2">
-                                    <span>Shipping</span>
-                                    <span className="fw-bolder">Free</span>
+                                <div className="d-flex align-items-center justify-content-between border-top mt-2 py-2">
+                                    <span className="fs-6">Total</span>
+                                    <span className="fw-bolder fs-6">${cartInfo.totalAmount}</span>
                                 </div>
                             </div>
-                            <div className="d-flex align-items-center justify-content-between border-top mt-2 py-2">
-                                <span className="fs-6">Total</span>
-                                <span className="fw-bolder fs-6">${cartInfo.totalAmount}</span>
+                            <div className="customer-info p-3 mt-2">
+                                <h3 className="border-bottom py-2">Customer Info</h3>
+                                <div className="mb-3">
+                                    <input type="text" className="form-control" placeholder="Fullname" 
+                                        {...register("fullname")}
+                                    />
+                                    <span className="invalid-feedback">{errors?.fullname?.message}</span>
+                                </div>
+                                <div className="mb-3">
+                                    <input type="text" className="form-control" placeholder="Mobile" 
+                                        {...register("mobile")}
+                                    />
+                                    <span className="invalid-feedback">{errors?.mobile?.message}</span>
+                                </div>
+                                <div className="mb-3">
+                                    <input type="text" className="form-control" placeholder="Address" 
+                                        {...register("address")}
+                                    />
+                                    <span className="invalid-feedback">{errors?.address?.message}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div className="py-3 bg-success mt-2 d-flex align-items-center justify-content-center text-white btn-checkout"
-                            onClick={() => dispatch(cartSlice.actions.checkoutCart())}
-                        >
-                            CHECKOUT
-                        </div>
+                            <div className="py-2 bg-success mt-2 d-flex align-items-center justify-content-center text-white btn-checkout">
+                                <button className="btn btn-block text-white" type="submit">CHECKOUT</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
