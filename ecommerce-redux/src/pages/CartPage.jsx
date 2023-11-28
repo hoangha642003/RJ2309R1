@@ -29,10 +29,12 @@ function CartPage() {
     const handleCheckoutCart = (data) => {
         const order = {
             orderId: uuid(),
-            cartInfo: {
-                ...cart.cartInfo
+            orderInfo: {
+                ...cart.cartInfo,
+                orderDate: new Date(),
+                orderStatus: 'pending'
             },
-            cartDetails: [
+            orderDetails: [
                 ...cart.cartDetails
             ],
             customerInfo: {
