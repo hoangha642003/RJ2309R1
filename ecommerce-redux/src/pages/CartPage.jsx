@@ -74,7 +74,7 @@ function CartPage() {
                                                     <img className="product-image" src={cartItem.img} alt="" />
                                                     <div className="d-inline">
                                                         <div className="d-block fw-bolder mb-2">{cartItem.title}</div>
-                                                        <div className={`badge py-1 px-3`} style={{ backgroundColor: cartItem.color }}>{cartItem.color}</div>
+                                                        <div className={`badge py-1 px-3 ${cartItem.color === 'white' ? 'border text-black' : ''}`} style={{ backgroundColor: cartItem.color }}>{cartItem.color}</div>
                                                     </div>
                                                 </div>
 
