@@ -116,3 +116,18 @@ input[type='search']::placeholder {
   align-items: center;
   justify-content: center;
 }
+
+.menu{
+  text-decoration: none;
+  padding: 7px 5px;
+  display: block;
+  margin-bottom: 1px;
+}
+
+.active{
+  background-color: rgba(13,110,253,.1);
+}
+.menu:hover{
+  background-color: rgba(13,110,253,.1);
+  text-decoration: underline;
+}
