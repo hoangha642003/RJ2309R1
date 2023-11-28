@@ -27,23 +27,35 @@ function CartPage() {
     })
 
     const handleCheckoutCart = (data) => {
-        const order = {
-            orderId: uuid(),
-            orderInfo: {
-                ...cart.cartInfo,
-                orderDate: new Date(),
-                orderStatus: 'pending'
-            },
-            orderDetails: [
-                ...cart.cartDetails
-            ],
-            customerInfo: {
-                ...data
+        Swal.fire({
+            title: 'Confirm checkout',
+            text: 'Are you sure to checkout',
+            showCancelButton: true,
+            confirmButtonColor: 'red',
+            cancelButtonColor: 'black'
+
+        }).then(result => {
+            if (result.isConfirmed) {
+                const order = {
+                    orderId: uuid(),
+                    orderInfo: {
+                        ...cart.cartInfo,
+                        orderDate: new Date(),
+                        orderStatus: 'pending'
+                    },
+                    orderDetails: [
+                        ...cart.cartDetails
+                    ],
+                    customerInfo: {
+                        ...data
+                    }
+                }
+                dispatch(checkoutCartThunkAction(order))
+                reset()
+                Swal.fire('Cart checkout success!')
             }
-        }
-        dispatch(checkoutCartThunkAction(order))
-        reset()
-        Swal.fire('Cart checkout success!')
+        })
+
     }
     return (
         <MainLayout>
@@ -165,7 +177,7 @@ function CartPage() {
                                 </div>
                             </div>
                             <div className="py-2 bg-success mt-2 d-flex align-items-center justify-content-center text-white btn-checkout">
-                                <button className="btn btn-block text-white" type="submit">CHECKOUT</button>
+                                <button className="btn btn-block text-white w-100 h-100" type="submit">CHECKOUT</button>
                             </div>
                         </form>
                     </div>
