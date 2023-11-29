@@ -11,7 +11,7 @@ function NavbarDashboard() {
                 </Link>
             </div>
             <div className="text-end">
-                <Link to={'/dashboard/order-list'}>
+                <Link to={'/shoe'}>
                     Khoa Nguyễn <RiLogoutBoxRLine size={20} role="button"/>
                 </Link>
             </div>
