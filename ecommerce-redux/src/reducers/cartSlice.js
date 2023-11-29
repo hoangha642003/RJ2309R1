@@ -6,7 +6,8 @@ const cartSlice = createSlice({
         cartInfo: {
             subTotal: 0,
             shipping: 0,
-            totalAmount: 0
+            total: 0,
+            status: 'draft'
         },
         cartDetails: [
 
@@ -28,7 +29,7 @@ const cartSlice = createSlice({
             }
             let newSubTotal = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
             state.cartInfo.subTotal = newSubTotal
-            state.cartInfo.totalAmount = newSubTotal + state.cartInfo.shipping
+            state.cartInfo.total = newSubTotal + state.cartInfo.shipping
         },
         incrementQuantity: (state, action) => {
             let cartItem = state.cartDetails?.find((item) => item.id === action?.payload?.id)
@@ -36,7 +37,7 @@ const cartSlice = createSlice({
             cartItem.amount = Number(cartItem.quantity * cartItem.newPrice)
             let newSubTotal = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
             state.cartInfo.subTotal = newSubTotal
-            state.cartInfo.totalAmount = newSubTotal + state.cartInfo.shipping
+            state.cartInfo.total = newSubTotal + state.cartInfo.shipping
         },
         decrementQuantity: (state, action) => {
             let cartItem = state.cartDetails?.find((item) => item.id === action?.payload?.id)
@@ -45,7 +46,7 @@ const cartSlice = createSlice({
                 cartItem.amount = Number(cartItem.quantity * cartItem.newPrice)
                 let newSubTotal = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
                 state.cartInfo.subTotal = newSubTotal
-                state.cartInfo.totalAmount = newSubTotal + state.cartInfo.shipping
+                state.cartInfo.total = newSubTotal + state.cartInfo.shipping
             }
 
         },
@@ -53,14 +54,15 @@ const cartSlice = createSlice({
             state.cartDetails = state.cartDetails.filter((item) => item.id !== action.payload.id)
             let newSubTotal = state.cartDetails.reduce((preValue, curValue) => preValue + (curValue.newPrice * curValue.quantity), 0)
             state.cartInfo.subTotal = newSubTotal
-            state.cartInfo.totalAmount = newSubTotal + state.cartInfo.shipping
+            state.cartInfo.total = newSubTotal + state.cartInfo.shipping
         },
         checkoutCart: (state, action) => {
             state.cartDetails = []
             state.cartInfo = {
                 subTotal: 0,
                 shipping: 0,
-                totalAmount: 0
+                total: 0,
+                status: 'draft'
             }
         }
     },
@@ -74,14 +76,15 @@ const cartSlice = createSlice({
                 state.cartInfo = {
                     subTotal: 0,
                     shipping: 0,
-                    totalAmount: 0
+                    total: 0,
+                    status: 'draft'
                 }
             })
     }
 })
 
 export const checkoutCartThunkAction = createAsyncThunk('cart/checkoutThunkAction', async (data) => {
-    let orderRes = await fetch('http://localhost:3000/orderList', {
+    let orderRes = await fetch('https://jsonserver-vercel-api.vercel.app/orderList', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

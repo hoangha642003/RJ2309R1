@@ -36,10 +36,12 @@ input[type='search']::placeholder {
   padding: 5px;
   border-radius: 5px;
 }
+
 .form-control {
-  font-size: .9rem !important; 
+  font-size: .9rem !important;
 }
-.form-control::placeholder{
+
+.form-control::placeholder {
   color: rgba(0, 0, 0, .3) !important;
   font-style: italic;
 }
@@ -117,17 +119,27 @@ input[type='search']::placeholder {
   justify-content: center;
 }
 
-.menu{
+.menu {
   text-decoration: none;
   padding: 7px 5px;
-  display: block;
   margin-bottom: 1px;
 }
 
-.active{
-  background-color: rgba(13,110,253,.1);
+.active {
+  background-color: rgba(13, 110, 253, .2);
 }
-.menu:hover{
-  background-color: rgba(13,110,253,.1);
+
+.menu:hover {
+  background-color: rgba(13, 110, 253, .1);
   text-decoration: underline;
+}
+
+.table-orders>thead>tr>th {
+  padding: 10px 5px;
+  background-color: rgba(13, 110, 253, 1);
+  color: white;
+}
+
+.product-img-sm {
+  width: "10px";
 }

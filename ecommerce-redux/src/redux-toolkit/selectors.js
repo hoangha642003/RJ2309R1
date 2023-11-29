@@ -8,6 +8,8 @@ export const searchColorSelector = (state) => state.filters.color
 export const searchPriceSelector = (state) => state.filters.price
 export const searchRecommendedSelector = (state) => state.filters.recommended
 export const cartSelector = (state) => state.cart
+export const orderListSelector = (state) => state.orders.orderList
+export const loadingOrderListSelector = (state) => state.orders.status
 
 export const filtersProductListSelector = createSelector(
     productListSelector,

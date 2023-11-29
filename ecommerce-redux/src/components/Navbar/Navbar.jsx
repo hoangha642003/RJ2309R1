@@ -41,12 +41,13 @@ function Navbar() {
                             <FaShoppingCart size={20} className="me-2" />
                         )
                     }
-
-                    <FaUser size={20} role="button" />
+                    <Link to={'/dashboard/order-list'}>
+                        <FaUser size={20} role="button" />
+                    </Link>
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }
 

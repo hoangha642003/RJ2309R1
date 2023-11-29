@@ -15,6 +15,7 @@ const schema = yup.object({
     fullname: yup.string().required(),
     mobile: yup.string().required(),
     address: yup.string().required(),
+    email: yup.string().required()
 })
 
 function CartPage() {
@@ -40,8 +41,7 @@ function CartPage() {
                     orderId: uuid(),
                     orderInfo: {
                         ...cart.cartInfo,
-                        orderDate: new Date(),
-                        orderStatus: 'pending'
+                        orderDate: Math.floor(Date.now() / 1000),
                     },
                     orderDetails: [
                         ...cart.cartDetails
@@ -143,7 +143,7 @@ function CartPage() {
                                 </div>
                                 <div className="d-flex align-items-center justify-content-between border-top mt-2 py-2">
                                     <span className="fs-6">Total</span>
-                                    <span className="fw-bolder fs-6">${cartInfo.totalAmount}</span>
+                                    <span className="fw-bolder fs-6">${cartInfo.total}</span>
                                 </div>
                             </div>
                             <div className="customer-info p-3 mt-2">
@@ -174,6 +174,15 @@ function CartPage() {
                                         {...register("address")}
                                     />
                                     <span className="invalid-feedback">{errors?.address?.message}</span>
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label className="form-label">Email</label>
+                                    <input type="text"
+                                        className={`form-control ${errors?.email?.message ? 'is-invalid' : ''}`}
+                                        placeholder="Email"
+                                        {...register('email')}
+                                    />
+                                    <span className="invalid-feedback">{errors?.email?.message}</span>
                                 </div>
                             </div>
                             <div className="py-2 bg-success mt-2 d-flex align-items-center justify-content-center text-white btn-checkout">

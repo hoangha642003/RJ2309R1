@@ -1,13 +1,13 @@
 import React from "react";
 import DashboardLayout from "../layouts/DashboardLayout";
-import OrderManagement from "../components/Dashboard/OrderManagement";
+import ProductManagement from "../components/Dashboard/ProductManagement";
 
-function OrderListPage() {
+function ProductPage(){
     return (
         <DashboardLayout>
-            <OrderManagement/>
+            <ProductManagement/>
         </DashboardLayout>
     )
 }
 
-export default OrderListPage;
+export default ProductPage;
