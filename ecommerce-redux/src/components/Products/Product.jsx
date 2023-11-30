@@ -21,13 +21,17 @@ function Product({ product }) {
                         style={{ width: "70%" }}
                     />
                 </div>
-                <div className="card-body px-0">
-                    <p className="fw-bolder">{title}</p>
+                <div className="card-body px-0 d-flex flex-column align-items-center">
+                    <p className="fw-bolder text-center">{title}</p>
                     <div className="d-flex align-items-center mb-2">
                         <div className="me-1">
                             {
+                                star > 0 ? 
                                 (new Array(star).fill(1)).map((item, index) => (
                                     <FaStar key={index} color="yellow" />
+                                )) : 
+                                (new Array(5).fill(1)).map((item, index) => (
+                                    <FaStar key={index} color="gray" />
                                 ))
                             }
                         </div>
@@ -35,9 +39,9 @@ function Product({ product }) {
                             ({reviews} reviewer)
                         </div>
                     </div>
-                    <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center justify-content-evenly w-75">
                         <div>
-                            <del className="line-through me-2">${prevPrice}</del>
+                            {prevPrice > 0 && <del className="line-through me-2">${prevPrice}</del>}
                             <span>${newPrice}</span>
                         </div>
                         <FaCartArrowDown size={20} className="btn-cart" 

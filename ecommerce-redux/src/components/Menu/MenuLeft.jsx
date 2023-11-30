@@ -17,7 +17,7 @@ const menuList = [
 ]
 function MenuLeft() {
     return (
-        <div style={{ minWidth: "180px" }} className="border-end vh-100">
+        <div style={{ minWidth: "180px" }}>
             <div className="d-flex flex-column">
                 <h5>Menu</h5>
                 {

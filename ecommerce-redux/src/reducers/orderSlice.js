@@ -24,7 +24,6 @@ const orderSlice = createSlice({
 export const fetchOrderListThunkAction = createAsyncThunk('fetchOrderListThunkAction', async () => {
     let orderListRes = await fetch('https://jsonserver-vercel-api.vercel.app/orderList')
     let data = await orderListRes.json()
-    console.log(data);
     return data;
 })
 export default orderSlice;
