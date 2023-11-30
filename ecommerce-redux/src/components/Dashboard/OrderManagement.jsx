@@ -38,7 +38,7 @@ function OrderManagement() {
                                             orderList?.map((orderItem) => (
                                                 <tr key={orderItem.orderId} role="button">
                                                     <td className="text-end align-middle py-3">
-                                                        {dayjs(orderItem?.orderInfo?.orderDate).format('MMM DD YYYY')}
+                                                        {dayjs(Date(orderItem?.orderInfo?.orderDate)).format('MMM DD YYYY')}
                                                     </td>
                                                     <td className="text-end align-middle py-3">
                                                         {orderItem?.orderDetails?.length}
