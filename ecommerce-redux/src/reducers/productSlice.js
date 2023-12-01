@@ -31,6 +31,14 @@ const productSlice = createSlice({
         }).addCase (fetchProductByIdThunkAction.fulfilled, (state, action) => {
             state.status = 'idle'
             state.product = action.payload
+        }).addCase (editProductThunkAction.fulfilled, (state, action) => {
+            state.status = 'idle'
+            state.products = state.products.map(p => {
+                if(p.id === action.payload?.id){
+                    return action.payload
+                }
+                return p
+            })
         })
     }
 })
@@ -58,6 +66,19 @@ export const addNewProductThunkAction = createAsyncThunk('productList/addNewProd
     let result  = await addProductRes.json()
     return result
 })
+
+export const editProductThunkAction = createAsyncThunk('productList/editProductThunkAction', async (data) => {
+    let addProductRes = await fetch(`https://jsonserver-vercel-api.vercel.app/products/${data?.id}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    let result  = await addProductRes.json()
+    return result
+})
+
 
 export const removeProductThunkAction = createAsyncThunk('productList/removeProductThunkAction', async (data) => {
     let removeProductRes = await fetch(`https://jsonserver-vercel-api.vercel.app/products/${data?.id}`, {

@@ -1,14 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addNewProductThunkAction } from "../../../reducers/productSlice";
-import { FaSave, FaTimes, FaUndo } from "react-icons/fa";
-import { FaCirclePlus } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { editProductThunkAction } from "../../../reducers/productSlice";
+import { FaSave, FaUndo } from "react-icons/fa";
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { toast } from "react-toastify";
 import { categoryList, colorList, companyList } from "../../../services/common";
-import { productSelector } from "../../../redux-toolkit/selectors";
 
 const schema = yup.object({
     title: yup.string().required(),
@@ -35,20 +33,17 @@ function EditProduct({ setOpenAddArea, isEdit, setIsEdit }) {
     })
 
     const handleUpdateProduct = (data) => {
-        console.log({
+        let newProduct = {
             ...product,
-            ...data
-        });
-        // let newProduct = {
-        //     ...data,
-        //     prevPrice: 0,
-        //     star: 0,
-        //     reviews: 0
-        // }
+            ...data,
+            prevPrice: Number(product.newPrice) !== Number(data.newPrice) ? Number(product.newPrice) : Number(product.prevPrice)
+        }
         // console.log(newProduct);
-        // dispatch(addNewProductThunkAction(newProduct))
-        // reset()
-        // toast.success('Product created success')
+        dispatch(editProductThunkAction(newProduct))
+        setIsEdit({})
+        setOpenAddArea(false)
+        reset()
+        toast.success('Product updated success')
     }
 
     const handleCloseAddArea = () => {
