@@ -143,3 +143,7 @@ input[type='search']::placeholder {
 .product-img-sm {
   width: "10px";
 }
+
+.modal {
+  background-color: rgba(0, 0, 0, .4) !important;
+}

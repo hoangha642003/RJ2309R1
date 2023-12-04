@@ -6,7 +6,7 @@ import { FaEdit, FaEye, FaStar, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
-function ProductTable({setIsEdit, setOpenAddArea} ) {
+function ProductTable({setselectProduct} ) {
     const dispatch = useDispatch()
     const products = useSelector(productListSelector)
     const loading = useSelector(loadingSelector)
@@ -29,8 +29,7 @@ function ProductTable({setIsEdit, setOpenAddArea} ) {
     }
 
     const handleEditProduct = (product) => {
-        setOpenAddArea(true)
-        setIsEdit(product)
+        setselectProduct(product)
     }
 
     return (
@@ -61,7 +60,7 @@ function ProductTable({setIsEdit, setOpenAddArea} ) {
                                                 </div>
                                             </td>
                                             <td className="text-start align-middle">
-                                                <span className={`badge ${product.color.toLowerCase() === 'white' ? 'border text-dark' : ''}`} style={{ backgroundColor: product.color }}>{product.color}</span>
+                                                <span className={`badge ${product.color === 'white' ? 'border text-dark' : ''}`} style={{ backgroundColor: product.color }}>{product.color}</span>
                                             </td>
                                             <td className="text-start align-middle">
                                                 {product.category}

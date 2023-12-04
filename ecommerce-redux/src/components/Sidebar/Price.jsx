@@ -24,7 +24,6 @@ const prices = [
         value: '150,150',
         name: "Over $150"
     },
-
 ]
 function Price() {
     const currentPrice = useSelector(searchPriceSelector)

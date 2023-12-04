@@ -26,6 +26,7 @@ const recommendedList = [
     }
 ]
 function Recommended() {
+    
     const recommended = useSelector(searchRecommendedSelector)
     const dispatch = useDispatch()
     return (

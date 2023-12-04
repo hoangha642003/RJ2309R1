@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import AddProduct from "./AddProduct";
 import ProductTable from "./ProductTable";
-import { useSelector } from "react-redux";
-import { productSelector } from "../../../redux-toolkit/selectors";
-import EditProduct from "./EditProduct";
+import EditProductModel from "./EditProductModel";
 
 function ProductManagement() {
     const [openAddArea, setOpenAddArea] = useState(false)
-    const [isEdit, setIsEdit] = useState({})
+    const [selectProduct, setselectProduct] = useState({})
 
     return (
         <>
+            <EditProductModel selectProduct={selectProduct}  setselectProduct={setselectProduct} />
             <div className="row">
                 <div className="col-md-12 d-flex justify-content-between">
                     <h5>Product List Management</h5>
@@ -21,13 +20,11 @@ function ProductManagement() {
                     </button>
                 </div>
                 {
-                    isEdit?.id ?
-                        <EditProduct setOpenAddArea={setOpenAddArea} isEdit={isEdit}  setIsEdit={setIsEdit} /> :
-                        openAddArea && <AddProduct setOpenAddArea={setOpenAddArea} setIsEdit={setIsEdit} />
+                    openAddArea && <AddProduct setOpenAddArea={setOpenAddArea} setselectProduct={setselectProduct} />
                 }
             </div>
             <div className="row mt-2">
-                <ProductTable setIsEdit={setIsEdit} setOpenAddArea={setOpenAddArea} />
+                <ProductTable setselectProduct={setselectProduct} />
             </div>
         </>
     )

@@ -7,7 +7,8 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { toast } from "react-toastify";
-import { categoryList, colorList, companyList } from "../../../services/common";
+import useFetchResource from "../../../custom-hooks/useFetchResource";
+import { CATEGORY_API_URL, COLOR_API_URL, COMPANY_API_URL } from "../../../services/common";
 
 const schema = yup.object({
     title: yup.string().required(),
@@ -18,7 +19,11 @@ const schema = yup.object({
     category: yup.string().required()
 })
 
-function AddProduct({ setOpenAddArea, setIsEdit }) {
+function AddProduct({ setOpenAddArea, setselectProduct }) {
+    const categoryList = useFetchResource(CATEGORY_API_URL)
+    const colorList = useFetchResource(COLOR_API_URL)
+    const companyList = useFetchResource(COMPANY_API_URL)
+
     const dispatch = useDispatch()
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
@@ -32,15 +37,15 @@ function AddProduct({ setOpenAddArea, setIsEdit }) {
             reviews: 0
         }
         console.log(newProduct);
-        dispatch(addNewProductThunkAction(newProduct))
-        reset()
-        toast.success('Product created success')
+        // dispatch(addNewProductThunkAction(newProduct))
+        // reset()
+        // toast.success('Product created success')
     }
 
     const handleCloseAddArea = () => {
         reset()
         setOpenAddArea(false)
-        setIsEdit({})
+        setselectProduct({})
     }
 
     return (
@@ -116,8 +121,8 @@ function AddProduct({ setOpenAddArea, setIsEdit }) {
                             >
                                 <option value={''} disabled>please select color</option>
                                 {
-                                    colorList?.map((item, index) => (
-                                        <option key={index} value={item.toLocaleLowerCase()}>{item}</option>
+                                    colorList?.map((item) => (
+                                        <option key={item.id} value={item.name}>{item.name}</option>
                                     ))
                                 }
                             </select>
