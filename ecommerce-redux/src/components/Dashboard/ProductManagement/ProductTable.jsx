@@ -1,19 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadingSelector, productListSelector } from "../../../redux-toolkit/selectors";
-import { fetchProductByIdThunkAction, fetchProductListThunkAction, removeProductThunkAction } from "../../../reducers/productSlice";
+import { manageProductLoadingSelector, manageProductSelector } from "../../../redux-toolkit/selectors";
 import { FaEdit, FaEye, FaStar, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { fetchProductPaginationThunkAction, removeProductThunkAction } from "../../../reducers/manageProductSlice";
 
-function ProductTable({setselectProduct} ) {
+function ProductTable({ setselectProduct }) {
+    const [currentPage, setCurrentPage] = useState(1)
+    const [direction, setDirection] = useState('next')
+    const [currentPageSize, setCurrenPageSize] = useState(10)
     const dispatch = useDispatch()
-    const products = useSelector(productListSelector)
-    const loading = useSelector(loadingSelector)
 
     useEffect(() => {
-        dispatch(fetchProductListThunkAction())
-    }, [dispatch])
+        dispatch(fetchProductPaginationThunkAction({ _page: currentPage, _limit: currentPageSize }))
+    }, [dispatch, currentPage, currentPageSize])
+
+    const { products, pagination } = useSelector(manageProductSelector)
+    const loading = useSelector(manageProductLoadingSelector)
 
     const handleRemoveProduct = (product) => {
         Swal.fire({
@@ -31,7 +35,24 @@ function ProductTable({setselectProduct} ) {
     const handleEditProduct = (product) => {
         setselectProduct(product)
     }
-
+    const handleNextPage = () => {
+        if (currentPage < pagination.totalPage) {
+            setCurrentPage(currentPage + 1)
+            setDirection('next')
+        }
+    }
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1)
+            setDirection('prev')
+        }
+    }
+    const handleChangePageSize = (e) => {
+        setCurrenPageSize(Number(e.target.value))
+        setCurrentPage(1)
+        setDirection('next')
+    }
+    console.log(currentPage);
     return (
         <>
             {
@@ -97,6 +118,33 @@ function ProductTable({setselectProduct} ) {
                                 }
                             </tbody>
                         </table>
+                        <div className="d-flex align-items-center justify-content-between">
+                            <ul className="pagination my-0">
+                                <li className={`page-item ${currentPage <= 1 ? 'disabled' : ''} ${direction === 'prev' ? 'active' : ''}`}>
+                                    <button className="page-link"
+                                        onClick={handlePreviousPage}
+                                    >Previous
+                                    </button>
+                                </li>
+                                <li className={`page-item ${currentPage >= pagination.totalPage ? 'disabled' : ''} ${direction === 'next' ? 'active' : ''}`}>
+                                    <button className="page-link"
+                                        onClick={handleNextPage}
+                                    >Next
+                                    </button>
+                                </li>
+                            </ul>
+                            <div className="d-flex align-items-center justify-content-end" style={{ minWidth: "150px" }}>
+                                <span className="flex-grow-1">Item per page</span>
+                                <select className="form-control" style={{ width: "50px" }} defaultValue={currentPageSize}
+                                    onChange={handleChangePageSize}
+                                >
+                                    <option value="10">10</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 )
             }

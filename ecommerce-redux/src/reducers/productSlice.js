@@ -5,9 +5,8 @@ const productSlice = createSlice({
     initialState: {
         status: 'idle',
         products: [],
-        product: {
-            
-        }
+        product: {},
+        pagination: {}
     },
     reducers: {
         fetchProducts: (state, action) => {
@@ -17,24 +16,21 @@ const productSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(fetchProductListThunkAction.pending, (state, action) => {
             state.status = 'loading'
-        }).addCase (fetchProductListThunkAction.fulfilled, (state, action) => {
+        }).addCase(fetchProductListThunkAction.fulfilled, (state, action) => {
             state.status = 'idle'
             state.products = action.payload
-        }).addCase (addNewProductThunkAction.fulfilled, (state, action) => {
+        }).addCase(addNewProductThunkAction.fulfilled, (state, action) => {
             state.status = 'idle'
             state.products.unshift(action.payload)
-        }).addCase (removeProductThunkAction.fulfilled, (state, action) => {
-            state.status = 'idle'
-            state.products = state.products.filter((p) => p.id !== action.payload?.id)
-        }).addCase (fetchProductByIdThunkAction.pending, (state, action) => {
+        }).addCase(fetchProductByIdThunkAction.pending, (state, action) => {
             state.status = 'loading'
-        }).addCase (fetchProductByIdThunkAction.fulfilled, (state, action) => {
+        }).addCase(fetchProductByIdThunkAction.fulfilled, (state, action) => {
             state.status = 'idle'
             state.product = action.payload
-        }).addCase (editProductThunkAction.fulfilled, (state, action) => {
+        }).addCase(editProductThunkAction.fulfilled, (state, action) => {
             state.status = 'idle'
             state.products = state.products.map(p => {
-                if(p.id === action.payload?.id){
+                if (p.id === action.payload?.id) {
                     return action.payload
                 }
                 return p
@@ -42,14 +38,15 @@ const productSlice = createSlice({
         })
     }
 })
-export const fetchProductListThunkAction = createAsyncThunk('productList/fetchProductListThunkAction',  async () => {
-    let productsRes = await fetch('https://jsonserver-vercel-api.vercel.app/products')
+export const fetchProductListThunkAction = createAsyncThunk('productList/fetchProductListThunkAction', async () => {
+    let productsRes = await fetch(`https://jsonserver-vercel-api.vercel.app/products`)
     let data = await productsRes.json()
     data = data.sort((item_1, item_2) => item_2.id - item_1.id)
     return data
 })
 
-export const fetchProductByIdThunkAction = createAsyncThunk('productList/fetchProductByIdThunkAction',  async (id) => {
+
+export const fetchProductByIdThunkAction = createAsyncThunk('productList/fetchProductByIdThunkAction', async (id) => {
     let productsRes = await fetch(`https://jsonserver-vercel-api.vercel.app/products/${id}`)
     let data = await productsRes.json()
     return data
@@ -59,11 +56,11 @@ export const addNewProductThunkAction = createAsyncThunk('productList/addNewProd
     let addProductRes = await fetch('https://jsonserver-vercel-api.vercel.app/products', {
         method: "POST",
         headers: {
-            'Content-Type' : 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     })
-    let result  = await addProductRes.json()
+    let result = await addProductRes.json()
     return result
 })
 
@@ -71,22 +68,14 @@ export const editProductThunkAction = createAsyncThunk('productList/editProductT
     let addProductRes = await fetch(`https://jsonserver-vercel-api.vercel.app/products/${data?.id}`, {
         method: "PUT",
         headers: {
-            'Content-Type' : 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     })
-    let result  = await addProductRes.json()
+    let result = await addProductRes.json()
     return result
 })
 
-
-export const removeProductThunkAction = createAsyncThunk('productList/removeProductThunkAction', async (data) => {
-    let removeProductRes = await fetch(`https://jsonserver-vercel-api.vercel.app/products/${data?.id}`, {
-        method: "DELETE"
-    })
-    await removeProductRes.json()
-    return data
-})
 export default productSlice
 
 /*

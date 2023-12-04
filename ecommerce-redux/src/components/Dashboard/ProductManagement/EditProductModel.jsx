@@ -5,6 +5,9 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { CATEGORY_API_URL, COLOR_API_URL, COMPANY_API_URL } from "../../../services/common";
 import useFetchResource from "../../../custom-hooks/useFetchResource";
+import { useDispatch } from "react-redux";
+import { editProductThunkAction } from "../../../reducers/productSlice";
+import { toast } from "react-toastify";
 
 const schema = yup.object({
     title: yup.string().required(),
@@ -16,6 +19,7 @@ const schema = yup.object({
 })
 
 function EditProductModel({ selectProduct, setselectProduct }) {
+    const dispatch = useDispatch()
     const [product, setProduct] = useState({})
     const [loading, setLoading] = useState(false)
     useEffect(() => {
@@ -51,6 +55,10 @@ function EditProductModel({ selectProduct, setselectProduct }) {
         }
 
         console.log(newProduct);
+        dispatch(editProductThunkAction(newProduct))
+        reset()
+        toast.success('Product update succeed!')
+        setselectProduct({})
     }
 
     const handleCloseEditProductModel = () => {
@@ -60,7 +68,7 @@ function EditProductModel({ selectProduct, setselectProduct }) {
     
     return (
         <div
-            className={`modal fade ${selectProduct?.id ? 'show' : ''}`}
+            className={`modal fade show`}
             style={{ display: selectProduct?.id ? 'block' : 'none' }}
         >
             <div className="modal-dialog modal-lg">

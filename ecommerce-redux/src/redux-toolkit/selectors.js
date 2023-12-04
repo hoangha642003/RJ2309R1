@@ -11,6 +11,8 @@ export const searchRecommendedSelector = (state) => state.filters.recommended
 export const cartSelector = (state) => state.cart
 export const orderListSelector = (state) => state.orders.orderList
 export const loadingOrderListSelector = (state) => state.orders.status
+export const manageProductSelector = (state) => state.manageProduct.data
+export const manageProductLoadingSelector = (state) => state.manageProduct.status
 
 export const filtersProductListSelector = createSelector(
     productListSelector,

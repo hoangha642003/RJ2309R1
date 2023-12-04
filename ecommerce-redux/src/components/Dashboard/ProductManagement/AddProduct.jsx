@@ -37,9 +37,9 @@ function AddProduct({ setOpenAddArea, setselectProduct }) {
             reviews: 0
         }
         console.log(newProduct);
-        // dispatch(addNewProductThunkAction(newProduct))
-        // reset()
-        // toast.success('Product created success')
+        dispatch(addNewProductThunkAction(newProduct))
+        reset()
+        toast.success('Product created success')
     }
 
     const handleCloseAddArea = () => {
