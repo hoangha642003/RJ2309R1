@@ -147,3 +147,9 @@ input[type='search']::placeholder {
 .modal {
   background-color: rgba(0, 0, 0, .4) !important;
 }
+
+.border-dashed {
+  border: 1px dashed gray;
+  border-radius: 5px;
+  padding: 3px;
+}

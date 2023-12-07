@@ -41,7 +41,7 @@ function CartPage() {
                     orderId: uuid(),
                     orderInfo: {
                         ...cart.cartInfo,
-                        orderDate: Math.floor(Date.now() / 1000),
+                        orderDate: Math.floor(Date.now()),
                     },
                     orderDetails: [
                         ...cart.cartDetails

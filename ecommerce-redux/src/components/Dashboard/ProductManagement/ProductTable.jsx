@@ -10,11 +10,18 @@ function ProductTable({ setselectProduct }) {
     const [currentPage, setCurrentPage] = useState(1)
     const [direction, setDirection] = useState('next')
     const [currentPageSize, setCurrenPageSize] = useState(10)
+    const [sortField, setSortField] = useState('id')
+    const [order, setOrder] = useState('asc')
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(fetchProductPaginationThunkAction({ _page: currentPage, _limit: currentPageSize }))
-    }, [dispatch, currentPage, currentPageSize])
+        dispatch(fetchProductPaginationThunkAction({
+            _page: currentPage,
+            _limit: currentPageSize,
+            _sortField: sortField,
+            _order: order
+        }))
+    }, [dispatch, currentPage, currentPageSize, sortField, order])
 
     const { products, pagination } = useSelector(manageProductSelector)
     const loading = useSelector(manageProductLoadingSelector)
@@ -52,9 +59,31 @@ function ProductTable({ setselectProduct }) {
         setCurrentPage(1)
         setDirection('next')
     }
-    console.log(currentPage);
+
     return (
         <>
+            <div className="col-md-12 col-lg-12 col-sm-12 mb-2 pt-2">
+                <div className="d-flex align-items-start">
+                    <div className="d-flex align-items-center">
+                        <span className="me-2">Sort</span>
+                        <select className="form-select form-select-sm" defaultValue={'id'} onChange={(e) => setSortField(e.target.value)}>
+                            <option value={'id'}>Id</option>
+                            <option value={'title'}>Title</option>
+                            <option value={'color'}>Color</option>
+                            <option value={'category'}>Category</option>
+                            <option value={'company'}>Company</option>
+                            <option value={'newPrice'}>Price</option>
+                        </select>
+                    </div>
+                    <div className="d-flex align-items-center">
+                        <span className="mx-2">Order</span>
+                        <select className="form-select form-select-sm" defaultValue={'asc'} onChange={(e) => setOrder(e.target.value)}>
+                            <option value={'asc'}>Ascendent </option>
+                            <option value={'desc'}>Descendent</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             {
                 loading === 'loading' ? <p>Loading...</p> : (
                     <div className="col-md-12 col-lg-12 col-sm-12">
@@ -81,7 +110,7 @@ function ProductTable({ setselectProduct }) {
                                                 </div>
                                             </td>
                                             <td className="text-start align-middle">
-                                                <span className={`badge ${product.color === 'white' ? 'border text-dark' : ''}`} style={{ backgroundColor: product.color }}>{product.color}</span>
+                                                <span className={`badge ${product.color === 'White' ? 'border text-dark' : ''}`} style={{ backgroundColor: product.color }}>{product.color}</span>
                                             </td>
                                             <td className="text-start align-middle">
                                                 {product.category}
@@ -118,36 +147,38 @@ function ProductTable({ setselectProduct }) {
                                 }
                             </tbody>
                         </table>
-                        <div className="d-flex align-items-center justify-content-between">
-                            <ul className="pagination my-0">
-                                <li className={`page-item ${currentPage <= 1 ? 'disabled' : ''} ${direction === 'prev' ? 'active' : ''}`}>
-                                    <button className="page-link"
-                                        onClick={handlePreviousPage}
-                                    >Previous
-                                    </button>
-                                </li>
-                                <li className={`page-item ${currentPage >= pagination.totalPage ? 'disabled' : ''} ${direction === 'next' ? 'active' : ''}`}>
-                                    <button className="page-link"
-                                        onClick={handleNextPage}
-                                    >Next
-                                    </button>
-                                </li>
-                            </ul>
-                            <div className="d-flex align-items-center justify-content-end" style={{ minWidth: "150px" }}>
-                                <span className="flex-grow-1">Item per page</span>
-                                <select className="form-control" style={{ width: "50px" }} defaultValue={currentPageSize}
-                                    onChange={handleChangePageSize}
-                                >
-                                    <option value="10">10</option>
-                                    <option value="30">30</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                        </div>
                     </div>
                 )
             }
+            <div className="col-md-12 col-lg-12 col-sm-12 mb-2">
+                <div className="d-flex align-items-center justify-content-between">
+                    <ul className="pagination my-0">
+                        <li className={`page-item ${currentPage <= 1 ? 'disabled' : ''} ${direction === 'prev' ? 'active' : ''}`}>
+                            <button className="page-link"
+                                onClick={handlePreviousPage}
+                            >Previous
+                            </button>
+                        </li>
+                        <li className={`page-item ${currentPage >= pagination.totalPage ? 'disabled' : ''} ${direction === 'next' ? 'active' : ''}`}>
+                            <button className="page-link"
+                                onClick={handleNextPage}
+                            >Next
+                            </button>
+                        </li>
+                    </ul>
+                    <div className="d-flex align-items-center justify-content-end" style={{ minWidth: "170px" }}>
+                        <span className="flex-grow-1">Item per page</span>
+                        <select className="form-select" style={{ width: "70px" }} defaultValue={currentPageSize}
+                            onChange={handleChangePageSize}
+                        >
+                            <option value="10">10</option>
+                            <option value="30">30</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </>
 
     )

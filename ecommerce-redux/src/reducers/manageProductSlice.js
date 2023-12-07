@@ -15,7 +15,7 @@ const manageProductSlice = createSlice({
         builder
             .addCase(removeProductThunkAction.fulfilled, (state, action) => {
                 state.status = 'idle'
-                state.products = state.products.filter((p) => p.id !== action.payload?.id)
+                state.data.products = state.data.products.filter((p) => p.id !== action.payload?.id)
             })
             .addCase(fetchProductPaginationThunkAction.pending, (state, action) => {
                 state.status = 'loading'
@@ -23,6 +23,19 @@ const manageProductSlice = createSlice({
             .addCase(fetchProductPaginationThunkAction.fulfilled, (state, action) => {
                 state.status = 'idle'
                 state.data = action.payload
+            })
+            .addCase(editProductThunkAction.fulfilled, (state, action) => {
+                state.status = 'idle'
+                state.data.products = state.data.products.map(p => {
+                    if (p.id === action.payload?.id) {
+                        return action.payload
+                    }
+                    return p
+                })
+            })
+            .addCase(addNewProductThunkAction.fulfilled, (state, action) => {
+                state.status = 'idle'
+                state.data.products.unshift(action.payload)
             })
     }
 })
@@ -36,11 +49,12 @@ export const removeProductThunkAction = createAsyncThunk('productList/removeProd
 })
 
 export const fetchProductPaginationThunkAction = createAsyncThunk('productList/fetchProductPaginationThunkAction', async (data) => {
-    const { _page, _limit } = data
+    const { _page, _limit, _sortField, _order } = data
+    
     let res = await fetch(`https://jsonserver-vercel-api.vercel.app/products`)
     let result = await res.json();
     
-    let productsRes = await fetch(`https://jsonserver-vercel-api.vercel.app/products?_page=${_page}&_limit=${_limit}`)
+    let productsRes = await fetch(`https://jsonserver-vercel-api.vercel.app/products?_page=${_page}&_limit=${_limit}&_sort=${_sortField}&_order=${_order}`)
     let products = await productsRes.json()
     let payload = {
         pagination: {
@@ -50,8 +64,32 @@ export const fetchProductPaginationThunkAction = createAsyncThunk('productList/f
         },
         products: products
     }
-    console.log(payload.pagination);
     return payload
 })
+
+export const editProductThunkAction = createAsyncThunk('productList/editProductThunkAction', async (data) => {
+    let addProductRes = await fetch(`https://jsonserver-vercel-api.vercel.app/products/${data?.id}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    let result = await addProductRes.json()
+    return result
+})
+
+export const addNewProductThunkAction = createAsyncThunk('productList/addNewProductThunkAction', async (data) => {
+    let addProductRes = await fetch('https://jsonserver-vercel-api.vercel.app/products', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    let result = await addProductRes.json()
+    return result
+})
+
 
 export default manageProductSlice;
