@@ -156,7 +156,7 @@ function EditProductModel({ selectProduct, setselectProduct }) {
                                                             </select>
                                                             <span className="invalid-feedback">{errors?.company?.message}</span>
                                                         </div>
-                                                        <div className="form-group mb-2">
+                                                        <div className="form-group mb-2 d-none">
                                                             <label className="form-label">Image</label>
                                                             <input
                                                                 type="text"
@@ -168,8 +168,8 @@ function EditProductModel({ selectProduct, setselectProduct }) {
                                                         </div>
                                                     </div>
                                                     <div className="col-md-4">
-                                                        <div className="form-group mb-2 border-dashed h-100 v-100">
-                                                            <img style={{ maxHeight: '100%', maxWidth: '100%' }} src={product?.img} alt="" />
+                                                        <div className="form-group d-flex flex-column align-items-center justify-content-center mb-2 border-dashed h-100 v-100 p-1">
+                                                            <img style={{ maxHeight: '180px', maxWidth: '80%'}} src={product?.img} alt="" />
                                                         </div>
                                                     </div>
                                                 </>
